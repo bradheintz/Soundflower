@@ -81,6 +81,7 @@
 				222ADFE81862531600C9BE56 /* Headers */,
 				222ADFE91862531600C9BE56 /* Resources */,
 				222ADFEA1862531600C9BE56 /* Rez */,
+				76D01F361AB2208E00E767E2 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -97,7 +98,7 @@
 		222ADFE21862531600C9BE56 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0620;
 				ORGANIZATIONNAME = "Cycling '74";
 				TargetAttributes = {
 					222ADFEB1862531600C9BE56 = {
@@ -141,6 +142,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXRezBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		76D01F361AB2208E00E767E2 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/../Tools/getSudoAccess.sh\"\nout=$(\"$SRCROOT/../Tools/load.rb\" 2>&1)\necho \"$out\"\n\nresult=$(echo \"$out\" | tail -n 2 | awk 'NR==1')\nif [[ $result == *\"success\"* ]]; then\n    echo \"Extension loaded successfully! :)\"\nelse\n    echo \"error: It seems that the extension couldn't load. Reason: $result.\"\n    exit 1\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		222ADFE61862531600C9BE56 /* Sources */ = {
@@ -186,7 +203,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
@@ -218,7 +235,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -234,15 +251,14 @@
 				DSTROOT = "$(SRCROOT)/../Build/InstallerRoot";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
 					"$(inherited)",
 					"NUM_CHANS=$NUM_CHANS",
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_GROUP = wheel;
 				INSTALL_OWNER = root;
-				INSTALL_PATH = /System/Library/Extensions;
 				MODULE_NAME = com.Cycling74.driver.Soundflower;
+				NUM_CHANS = 2;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = kext;
@@ -263,8 +279,8 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_GROUP = wheel;
 				INSTALL_OWNER = root;
-				INSTALL_PATH = /System/Library/Extensions;
 				MODULE_NAME = com.Cycling74.driver.Soundflower;
+				NUM_CHANS = 2;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = kext;

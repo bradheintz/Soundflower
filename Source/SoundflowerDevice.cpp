@@ -111,6 +111,10 @@ bool SoundflowerDevice::createAudioEngines()
 		initControls(audioEngine);
         activateAudioEngine(audioEngine);	// increments refcount and manages the object
         audioEngine->release();				// decrement refcount so object is released when the manager eventually releases it
+
+#if NUM_CHANS == 2
+        break;  // No need to create two equal engines
+#endif
     }
 	
     audioEngineIterator->release();
@@ -136,7 +140,9 @@ bool SoundflowerDevice::initControls(SoundflowerEngine* audioEngine)
         mMuteOut[channel] = mMuteIn[channel] = false;
     }
     
-    const char *channelNameMap[NUM_CHANS+1] = {	kIOAudioControlChannelNameAll,
+    const UInt32 nChannelNameMap = (NUM_CHANS<7)? 7:NUM_CHANS;
+    
+    const char *channelNameMap[nChannelNameMap+1] = {	kIOAudioControlChannelNameAll,
 										kIOAudioControlChannelNameLeft,
 										kIOAudioControlChannelNameRight,
 										kIOAudioControlChannelNameCenter,
@@ -144,10 +150,10 @@ bool SoundflowerDevice::initControls(SoundflowerEngine* audioEngine)
 										kIOAudioControlChannelNameRightRear,
 										kIOAudioControlChannelNameSub };
 	
-    for (UInt32 channel=7; channel <= NUM_CHANS; channel++)
+    for (UInt32 channel=7; channel <= nChannelNameMap; channel++)
         channelNameMap[channel] = "Unknown Channel";
     
-    for (unsigned channel=0; channel <= NUM_CHANS; channel++) {
+    for (unsigned channel=0; channel <= nChannelNameMap; channel++) {
 		
         // Create an output volume control for each channel with an int range from 0 to 65535
         // and a db range from -72 to 0
