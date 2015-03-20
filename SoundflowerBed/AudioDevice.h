@@ -68,6 +68,8 @@ public:
 	
 	int		CountChannels();
 	char *	GetName(char *buf, UInt32 maxlen);
+    UInt32  GetTransportType();
+    char *  GetTransportType(char *buf, UInt32 maxlen);
 
 public:
 	AudioDeviceID					mID;

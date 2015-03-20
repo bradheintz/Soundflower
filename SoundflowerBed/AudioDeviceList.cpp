@@ -73,13 +73,27 @@ void	AudioDeviceList::BuildList()
 			
 			d.mID = devids[i];
 			dev.GetName(d.mName, sizeof(d.mName));
+            //d.mTransportType = dev.GetTransportType();
 			mDevices.push_back(d);
             
-            //printf("name:%s,%lu\n",d.mName,d.mID);
+            // char buf[64]; printf("name:%s, id:%lu, type: %s\n", d.mName,d.mID,dev.GetTransportType(buf,sizeof(buf)));
 		}
 	}
     if (0 == nDevices){
         //printf("NO DEVICE!\n");
     }
 	delete[] devids;
+}
+
+AudioDeviceList::priorityMap AudioDeviceList::priorityTransportType  = AudioDeviceList::iniPriorityMap();
+
+bool    AudioDeviceList::sortFun(Device& x, Device& y)
+{
+    UInt32 ttX = AudioDevice(x.mID,false).GetTransportType(), ttY = AudioDevice(y.mID,false).GetTransportType(), dataSourceX, dataSourceY, size = sizeof(dataSourceX);
+    verify_noerr(AudioDeviceGetProperty(x.mID, 0, false, kAudioDevicePropertyDataSource, &size, &dataSourceX));
+    verify_noerr(AudioDeviceGetProperty(y.mID, 0, false, kAudioDevicePropertyDataSource, &size, &dataSourceY));
+    if (dataSourceX=='hdpn') { ttX = kAudioDeviceTransportTypeHeadphones; strcpy(x.mName, "Headphones"); }
+    if (dataSourceY=='hdpn') { ttY = kAudioDeviceTransportTypeHeadphones; strcpy(y.mName, "Headphones"); }
+
+    return (priorityTransportType[ttX]==priorityTransportType[ttY])? (strcmp(x.mName,y.mName)>0):(priorityTransportType[ttX]>priorityTransportType[ttY]);
 }
