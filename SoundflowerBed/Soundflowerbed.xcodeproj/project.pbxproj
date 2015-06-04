@@ -311,12 +311,14 @@
 		222FE2F90EBB5DD500FD13FC /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 			};
 			name = Development;
 		};
 		222FE2FA0EBB5DD500FD13FC /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 			};
 			name = Deployment;
 		};
@@ -334,6 +336,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = /Applications/Soundflower;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_NAME = Soundflowerbed;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -355,6 +358,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = /Applications/Soundflower;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_NAME = Soundflowerbed;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
